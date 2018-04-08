@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="UTF-8"/>
+<title>登陆成功</title>
+</head>
+<body>
+	
+	<h1 th:each="role : ${session.SPRING_SECURITY_CONTEXT.authentication.principal.roles}">
+		<span th:text="${role.name}"></span>
+		<span th:each="${resource : role.resources}">
+			<span th:each="${resource.name}"></span>
+		</span>
+	</h1>
+</body>
+</html>

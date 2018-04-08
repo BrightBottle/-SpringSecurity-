@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+
+	<resultMap type="User" id="BaseResultMap">
+		<id column="id" property="id"/>
+		<result column="dob" property="dob"/>
+		<result column="email" property="email"/>
+		<result column="name" property="name"/>
+		<result column="password" property="password"/>
+		<collection property="roles" resultMap="RoleResultMap"></collection>
+	</resultMap>
+	
+	<resultMap type="Role" id="RoleResultMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<collection property="users" resultMap="BaseResultMap"></collection>
+		<collection property="resources" resultMap="ResourceResultMap"></collection>
+	</resultMap>
+	
+		<resultMap type="Resource" id="ResourceResultMap">
+		<id column="id" property="id"/>
+		<result column="resource_string" property="resourceString"/>
+		<result column="resource_id" property="resourceId"/>
+		<result column="remark" property="remark"/>
+		<result column="resource_name" property="resourceName"/>
+		<result column="method_name" property="methodName"/>
+		<result column="method_path" property="methodPath"/>
+		<collection property="roles" resultMap="RoleResultMap"></collection>
+	</resultMap>
+
+  <select id="getUserByName" resultMap="BaseResultMap" parameterType="String">
+    SELECT 
+    	*
+    FROM
+    	user u, role r, user_role ur,resource re,resource_role re_r
+    WHERE u.id = ur.uid AND ur.rid = r.id AND r.id = re_r.role_id AND re_r.resource_id = re.id
+    AND u.name = #{name}
+  </select>
+</mapper>
